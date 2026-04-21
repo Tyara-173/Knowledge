@@ -29,7 +29,7 @@ print("flag:", flag)
 624個の乱数が与えられる．それが`secrets.randbits(32)`によって生成された乱数か，`random.setstate((3, (*a, 624), None))`をした後に`random.getrandbits(32)`で生成された乱数かを当てたい．
 
 ## 解法
-624といえばメルセンヌ・ツイスタで使われているいつもの値なので，メルセンヌ・ツイスタの脆弱性を突けそう．
+Pythonのrandomはメルセンヌ・ツイスタを使用しているため，624個の乱数がメルセンヌ・ツイスタによって生成されたものかを当てたい．
 
 `random.setstate((3, (*a, 624), None))`が気になるので[`random.setstate()`の実装](https://github.com/python/cpython/blob/main/Modules/_randommodule.c#L455)を覗くと，内部状態`mt`を`a`に置き換え，`self->index`を`624`に置き換えている．ここで`self->index`を`624`に置き換えているのが重要で，これにより最初に呼び出された`random.getrandbits(32)`で強制的にTwist演算が発生している．
 
