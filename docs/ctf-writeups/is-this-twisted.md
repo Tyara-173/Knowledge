@@ -54,11 +54,9 @@ def untemper(y):
     y ^= (y >> 11) ^ (y >> 22)
     return y
 
-
 LOWER_MASK = 0x7fffffff
 UPPER_MASK = 0x80000000
 MATRIX_A = 0x9908b0df
-
 
 def guess_bit(a):
     a_0 = untemper(a[0])
